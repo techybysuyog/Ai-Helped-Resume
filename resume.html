@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Resume | Suyog Deore</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+:root{
+    --accent: #f59e0b; 
+    --accent-glow: rgba(245, 158, 11, 0.5);
+    --text: #f8fafc;
+    --glass: rgba(15, 23, 42, 0.8);
+}
+
+/* 🌌 DYNAMIC BACKGROUND */
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+
+body{
+    min-height: 100vh;
+    color: var(--text);
+    background: radial-gradient(circle at top right, #451a03, #020617 40%),
+                radial-gradient(circle at bottom left, #291505, #020617 40%);
+    background-attachment: fixed;
+    padding: 100px 20px;
+    overflow-x: hidden;
+}
+
+/* ✨ ENTRANCE ANIMATIONS */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes growLine {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* 📍 NAVIGATION */
+.top-nav {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 20px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px);
+    z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.back-btn {
+    text-decoration: none; color: var(--text); border: 1px solid var(--accent);
+    padding: 10px 25px; border-radius: 50px; font-size: 0.9rem;
+    background: rgba(245, 158, 11, 0.1); transition: 0.4s;
+}
+.back-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent-glow); }
+
+/* 📄 RESUME MAIN CARD */
+.resume-wrapper {
+    max-width: 1000px; margin: auto;
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    overflow: hidden;
+    animation: slideUp 1s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+}
+
+/* 👤 SIDEBAR ANIMATIONS */
+.sidebar {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 50px 40px;
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.profile-container {
+    position: relative; width: 180px; height: 180px; margin: 0 auto 30px;
+}
+
+.profile-container::before {
+    content: ''; position: absolute; inset: -5px;
+    border-radius: 50%; padding: 3px;
+    background: linear-gradient(45deg, transparent, var(--accent), transparent);
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate { 100% { transform: rotate(360deg); } }
+
+.profile-pic {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; border: 4px solid #020617; position: relative; z-index: 2;
+}
+
+/* 📊 FULFILLMENT BARS */
+.skill-box { margin-bottom: 20px; }
+.skill-info { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; }
+.skill-bar-bg { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.skill-fill { 
+    height: 100%; background: linear-gradient(90deg, #f59e0b, #fbbf24); 
+    width: 0; transition: 2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+}
+
+/* 📝 MAIN CONTENT ANIMATIONS */
+.main-content { padding: 50px; }
+
+.section { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; margin-bottom: 40px; }
+.section.visible { opacity: 1; transform: translateY(0); }
+
+.section-title {
+    font-size: 1.4rem; color: var(--accent); margin-bottom: 25px;
+    display: flex; align-items: center; gap: 15px;
+}
+
+.section-title::after {
+    content: ''; flex: 1; height: 1px; background: rgba(245, 158, 11, 0.2);
+}
+
+.resume-item {
+    position: relative; padding-left: 30px; border-left: 2px solid rgba(245, 158, 11, 0.2);
+    margin-bottom: 30px;
+}
+
+.resume-item::before {
+    content: ''; position: absolute; left: -7px; top: 5px;
+    width: 12px; height: 12px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+.download-footer {
+    grid-column: span 2; padding: 30px; background: rgba(0,0,0,0.2);
+    display: flex; justify-content: center;
+}
+
+.glow-button {
+    position: relative; padding: 15px 40px; background: var(--accent);
+    color: #000; font-weight: 700; text-decoration: none; border-radius: 15px;
+    overflow: hidden; transition: 0.3s;
+}
+
+.glow-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+@media(max-width: 850px) {
+    .resume-wrapper { grid-template-columns: 1fr; }
+    .sidebar { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <a href="index.html" class="back-btn"><i class="fas fa-chevron-left"></i> Home</a>
+    <h3 style="letter-spacing: 2px; font-weight: 300;">RESUME</h3>
+</nav>
+
+<div class="resume-wrapper">
+    <aside class="sidebar">
+        <div class="profile-container">
+            <img src="https://github.com/techybysuyog/techbysuyog/blob/main/1234.jpeg?raw=true" class="profile-pic" alt="Suyog">
+        </div>
+        
+        <h2 style="text-align:center; font-size: 1.8rem;">Suyog Deore</h2>
+        <p style="text-align:center; color: var(--accent); font-size: 0.8rem; margin-bottom: 40px;">B.TECH AI STUDENT</p>
+
+        <div class="section-title" style="font-size: 1rem;">Expertise</div>
+        
+        <div class="skill-box">
+            <div class="skill-info"><span>Python (AI Focus)</span><span>90%</span></div>
+            <div class="skill-bar-bg"><div class="skill-fill" data-percent="90%"></div></div>
+        </div>
+        <div class="skill-box">
+            <div class="skill-info"><span>C Programming</span><span>85%</span></div>
+            <div class="skill-bar-bg"><div class="skill-fill" data-percent="85%"></div></div>
+        </div>
+        <div class="skill-box">
+            <div class="skill-info"><span>Frontend (UI/UX)</span><span>75%</span></div>
+            <div class="skill-bar-bg"><div class="skill-fill" data-percent="75%"></div></div>
+        </div>
+        <div class="skill-box" style="margin-top: 40px;">
+            <div class="skill-info"><span>Logic & Algorithms</span><span>95%</span></div>
+            <div class="skill-bar-bg"><div class="skill-fill" data-percent="95%"></div></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <div class="section">
+            <div class="section-title"><i class="fas fa-user-graduate"></i> Education</div>
+            <div class="resume-item">
+                <h4 style="color: var(--accent);">B.Tech in Artificial Intelligence</h4>
+                <p style="font-size: 0.8rem; opacity: 0.6;">2024 - 2028 | Second Year</p>
+                <p style="margin-top: 10px;">Currently mastering Deep Learning fundamentals, Data Structures, and Python-based automation.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-project-diagram"></i> Key Projects</div>
+            <div class="resume-item">
+                <h4 style="color: #fff;">Neural Portfolio Core</h4>
+                <p style="font-size: 0.8rem; opacity: 0.6;">Lead Developer</p>
+                <p style="margin-top: 10px;">Created a high-performance glassmorphism portfolio with real-time data visualization using Chart.js.</p>
+            </div>
+            <div class="resume-item">
+                <h4 style="color: #fff;">Python Automation Scripting</h4>
+                <p style="margin-top: 10px;">Developed specialized logic handlers in C and Python to optimize data processing workflows.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-certificate"></i> Achievements</div>
+            <p>• Advanced Logic Certification (Python/C)<br>
+               • 1st Place in Local Logic Hackathon 2025<br>
+               • Consistent 9.0+ CGPA Performance</p>
+        </div>
+
+    </main>
+
+    <footer class="download-footer">
+        <a href="#" class="glow-button" onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> GENERATE SMART PDF
+        </a>
+    </footer>
+</div>
+
+<script>
+    // Intersection Observer for Staggered Section Reveal
+    const observerOptions = { threshold: 0.2 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add delay based on index for staggered effect
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                    
+                    // If the section has skill bars, animate them
+                    const bars = entry.target.querySelectorAll('.skill-fill');
+                    bars.forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-percent');
+                    });
+                }, index * 150);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.section, .sidebar').forEach(el => observer.observe(el));
+
+    // Force skill bars in sidebar to load since they are visible immediately
+    window.onload = () => {
+        document.querySelectorAll('.sidebar .skill-fill').forEach(bar => {
+            setTimeout(() => {
+                bar.style.width = bar.getAttribute('data-percent');
+            }, 800);
+        });
+    };
+</script>
+
+</body>
+</html>

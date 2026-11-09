@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suyog Deore | AI Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+    --accent: #f59e0b; 
+    --accent-glow: rgba(245, 158, 11, 0.4);
+    --text: #f8fafc;
+    --glass: rgba(15, 23, 42, 0.75);
+}
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:var(--text);
+    background: linear-gradient(-45deg, #020617, #451a03, #0f172a, #291505);
+    background-size:400% 400%;
+    animation:bgFlow 15s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes bgFlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* 📍 TOP BAR */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    z-index: 1001;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+/* 🟠 GOOGLE STYLE PROFILE ICON */
+.profile-trigger {
+    position: relative;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+    overflow: hidden;
+}
+.profile-trigger:hover { 
+    border-color: var(--accent); 
+    box-shadow: 0 0 10px var(--accent-glow); 
+}
+.profile-img-small { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* 🔗 NAV BUTTONS */
+.nav-btn {
+    background: rgba(245, 158, 11, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 8px 18px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+.nav-btn:hover { 
+    background: var(--accent); 
+    color: #000; 
+}
+
+/* 🖼️ IMAGE MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+}
+.modal.active { display: flex; }
+.modal-content {
+    padding: 5px;
+    background: linear-gradient(120deg, #f59e0b, #ef4444);
+    border-radius: 20px;
+}
+.modal-content img { 
+    max-width: 90vw; 
+    max-height: 80vh; 
+    border-radius: 15px; 
+    display: block;
+}
+
+/* MAIN CONTENT */
+.container{ max-width:1100px; margin:auto; padding:120px 20px 40px; }
+
+.outline{ position:relative; border-radius:20px; margin-bottom:50px; }
+.outline::before{
+    content:''; position:absolute; inset:0; padding:1.5px; border-radius:inherit;
+    background:linear-gradient(120deg, #f59e0b, #fbbf24, #ef4444, #fb923c);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
+}
+
+.card{ 
+    background: var(--glass); 
+    backdrop-filter:blur(16px); 
+    border-radius:20px; 
+    padding:40px; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+}
+
+header{ text-align:center; margin-bottom:60px; }
+h1{ 
+    font-size:3rem; 
+    background: linear-gradient(to right, #fff, #fbbf24); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+}
+.subtitle{ color:var(--accent); font-weight:600; }
+
+h2{ border-left:4px solid var(--accent); padding-left:15px; margin-bottom:25px; }
+
+/* SKILLS */
+.skill{ margin-bottom:20px; }
+.skill-title{ display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.9rem; }
+.bar{ height:8px; border-radius:10px; background:rgba(255,255,255,0.1); overflow:hidden; }
+.fill{ height:100%; background:linear-gradient(90deg, #f59e0b, #fbbf24); width:0; transition: 1.5s ease-out; }
+
+/* ANALYSIS */
+.analysis{ display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+canvas{ max-width:100% !important; }
+
+/* PROJECT/RESUME SECTION STYLES */
+.btn-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.action-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 30px;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+.action-card:hover {
+    border-color: var(--accent);
+    background: rgba(245, 158, 11, 0.05);
+    transform: translateY(-5px);
+}
+.action-card i {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+.action-card p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* CONTACT */
+.contact{ display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+.contact a{ 
+    text-decoration:none; 
+    color:var(--text); 
+    background:rgba(255,255,255,0.05); 
+    padding:12px 24px; 
+    border-radius:12px; 
+    display:flex; 
+    align-items:center; 
+    gap:10px; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    transition: 0.3s; 
+}
+.contact a:hover{ background:var(--accent); color:#451a03; }
+
+.watermark { position: fixed; bottom: 15px; right: 15px; opacity: 0.2; font-size: 0.7rem; }
+
+@media(max-width:768px){ 
+    .analysis{grid-template-columns:1fr} 
+    h1{font-size: 2.2rem;} 
+    .top-bar { padding: 10px 15px; }
+    .nav-links { gap: 8px; }
+    .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    <div class="profile-trigger" onclick="openModal()">
+        <img src="https://github.com/techybysuyog/techbysuyog/blob/main/1234.jpeg?raw=true" class="profile-img-small" alt="Suyog Deore">
+    </div>
+    <div class="nav-links">
+        <a href="suyog.html" class="nav-btn">About</a>
+        <a href="project.html" class="nav-btn">Projects</a>
+        <a href="resume.html" class="nav-btn">Resume</a>
+    </div>
+</div>
+
+<div class="modal" id="imgModal">
+    <div class="modal-content">
+        <img src="https://github.com/techybysuyog/techbysuyog/blob/main/1234.jpeg?raw=true" alt="Suyog Deore Large">
+    </div>
+</div>
+
+<div class="watermark">Suyog Deore</div>
+
+<div class="container">
+    <header>
+        <h1>SUYOG DEORE</h1>
+        <p class="subtitle">Second Year B.Tech AI Student</p>
+    </header>
+
+    <section class="outline">
+        <div class="card">
+            <h2>Portfolio Highlights</h2>
+            <div class="btn-grid">
+                <div class="action-card">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>My Projects</h3>
+                    <p>Explore my latest AI models, web apps, and coding experiments.</p>
+                    <a href="project.html" class="nav-btn">Open Projects</a>
+                </div>
+                <div class="action-card">
+                    <i class="fas fa-file-invoice"></i>
+                    <h3>Resume</h3>
+                    <p>Detailed view of my education, certifications, and technical background.</p>
+                    <a href="resume.html" class="nav-btn">View Resume</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="outline">
+        <div class="card">
+            <h2>Technical Skills</h2>
+            <div class="skill"><div class="skill-title"><span>C Language</span><span>85%</span></div>
+                <div class="bar"><div class="fill" style="width: 85%"></div></div></div>
+            <div class="skill"><div class="skill-title"><span>Python</span><span>90%</span></div>
+                <div class="bar"><div class="fill" style="width: 90%"></div></div></div>
+            <div class="skill"><div class="skill-title"><span>HTML / CSS</span><span>90%</span></div>
+                <div class="bar"><div class="fill" style="width: 90%"></div></div></div>
+        </div>
+    </section>
+
+    <section class="outline">
+        <div class="card">
+            <h2>Learning Analysis</h2>
+            <div class="analysis">
+                <div><p style="margin-bottom:15px; font-size:0.8rem; color:var(--accent)">Knowledge Distribution</p><canvas id="radarChart"></canvas></div>
+                <div><p style="margin-bottom:15px; font-size:0.8rem; color:var(--accent)">Learning Consistency</p><canvas id="lineChart"></canvas></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="outline">
+        <div class="card">
+            <h2>Get In Touch</h2>
+            <div class="contact">
+                <a href="tel:8605425045"><i class="fas fa-phone"></i>8605425045</a>
+                <a href="mailto:techbysuyog@gmail.com"><i class="fas fa-envelope"></i>Email</a>
+                <a href="https://instagram.com/Techby_Suyog" target="_blank"><i class="fab fa-instagram"></i>Instagram</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+/* Modal Logic */
+function openModal() { document.getElementById('imgModal').classList.add('active'); }
+window.onclick = function(event) {
+    if (event.target.id == 'imgModal') { document.getElementById('imgModal').classList.remove('active'); }
+}
+
+/* Charts */
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['Logic','Syntax','AI Theory','UI/UX','Algorithms'],
+        datasets: [{
+            data: [90, 85, 70, 65, 80],
+            backgroundColor: 'rgba(245, 158, 11, 0.2)',
+            borderColor: '#f59e0b',
+            borderWidth: 2
+        }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { r: { grid: { color: 'rgba(255,255,255,0.1)' }, angleLines: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#f8fafc' }, ticks: { display: false } } } }
+});
+
+new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+        labels: ['Oct','Nov','Dec','Jan'],
+        datasets: [{
+            data: [40, 65, 55, 90],
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8'} }, x: { grid: { display: false }, ticks: { color: '#94a3b8'} } } }
+});
+</script>
+
+</body>
+</html>
